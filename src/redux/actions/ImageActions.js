@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { logout } from './UserActions';
 import { IMAGE_UPLOAD_FAIL, IMAGE_UPLOAD_REQUEST, IMAGE_UPLOAD_SUCCESS } from "../constants/ImageConstatns";
+import api from './../../api';
 
 export const uploadProductImage = (image) => async(dispatch, getState) => {
     try {
@@ -18,7 +19,7 @@ export const uploadProductImage = (image) => async(dispatch, getState) => {
             }
         }
 
-        const {data} = await axios.post(`/api/images/upload-image`, formData, config)
+        const {data} = await api.post(`/api/images/upload-image`, formData, config)
         
         dispatch({ type: IMAGE_UPLOAD_SUCCESS, payload: data.url })
 
@@ -49,7 +50,7 @@ export const deleteProductImage = (image) => async(dispatch, getState) => {
             }
         }
 
-        const {data} = await axios.post(`/api/images/delete-image`, { image }, config)
+        const {data} = await api.post(`/api/images/delete-image`, { image }, config)
         
         dispatch({ type: IMAGE_UPLOAD_SUCCESS, payload: data })
     } catch (error) {

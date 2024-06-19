@@ -1,6 +1,7 @@
 import { CATEGORY_CREATE_FAIL, CATEGORY_CREATE_REQUEST, CATEGORY_CREATE_SUCCESS, CATEGORY_DELETE_FAIL, CATEGORY_DELETE_REQUEST, CATEGORY_DELETE_SUCCESS, CATEGORY_EDIT_FAIL, CATEGORY_EDIT_REQUEST, CATEGORY_EDIT_SUCCESS, CATEGORY_LIST_FAIL, CATEGORY_LIST_REQUEST, CATEGORY_LIST_SUCCESS, CATEGORY_UPDATE_FAIL, CATEGORY_UPDATE_REQUEST, CATEGORY_UPDATE_SUCCESS } from "../constants/CategoryConstants";
 import axios from 'axios';
 import { logout } from "./UserActions";
+import api from './../../api';
 
 export const listCategories = () => async (dispatch, getState) =>
 {
@@ -15,7 +16,7 @@ export const listCategories = () => async (dispatch, getState) =>
       }
     }
 
-    const { data } = await axios.get(`/api/categories`, config)
+    const { data } = await api.get(`/api/categories`, config)
 
     dispatch({ type: CATEGORY_LIST_SUCCESS, payload: data })
 
@@ -49,7 +50,7 @@ export const createCategory = (name, parent) => async (dispatch, getState) =>
       },
     };
 
-    const { data } = await axios.post(
+    const { data } = await api.post(
       `/api/categories/`,
       { name, parent },
       config
@@ -79,7 +80,7 @@ export const createCategory = (name, parent) => async (dispatch, getState) =>
 export const editCategory = (id) => async(dispatch) => {
   try {
       dispatch({ type: CATEGORY_EDIT_REQUEST})
-      const {data} = await axios.get(`/api/categories/${id}`)
+      const {data} = await api.get(`/api/categories/${id}`)
       dispatch({ type: CATEGORY_EDIT_SUCCESS, payload: data})
   } catch (error) {
       const message = error.response && error.response.data.message ? error.response.data.message : error.message
@@ -111,7 +112,7 @@ export const updateCategory = (id, name, parent) => async (dispatch, getState) =
       },
     };
 
-    const { data } = await axios.put(
+    const { data } = await api.put(
       `/api/categories/${id}`,
       { name, parent },
       config
@@ -148,7 +149,7 @@ export const deleteCategory = (id) => async(dispatch, getState) => {
           }
       }
 
-      await axios.delete(`/api/categories/${id}`, config)
+      await api.delete(`/api/categories/${id}`, config)
       
       dispatch({ type: CATEGORY_DELETE_SUCCESS })
 

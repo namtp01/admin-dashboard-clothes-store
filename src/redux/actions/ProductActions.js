@@ -1,6 +1,7 @@
 import { PRODUCT_CREATE_FAIL, PRODUCT_CREATE_REQUEST, PRODUCT_CREATE_SUCCESS, PRODUCT_DELETE_FAIL, PRODUCT_DELETE_REQUEST, PRODUCT_DELETE_SUCCESS, PRODUCT_EDIT_FAIL, PRODUCT_EDIT_REQUEST, PRODUCT_EDIT_SUCCESS, PRODUCT_LIST_FAIL, PRODUCT_LIST_REQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_UPDATE_FAIL, PRODUCT_UPDATE_REQUEST, PRODUCT_UPDATE_SUCCESS } from "../constants/ProductConstants"
 import axios from 'axios';
 import { logout } from "./UserActions";
+import api from './../../api';
 
 // ALL PRODUCTS
 export const listProducts = () => async(dispatch, getState) => {
@@ -15,7 +16,7 @@ export const listProducts = () => async(dispatch, getState) => {
             }
         }
 
-        const {data} = await axios.get(`/api/products/all`, config)
+        const {data} = await api.get(`/api/products/all`, config)
         
         dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data})
 
@@ -46,7 +47,7 @@ export const deleteProduct = (id) => async(dispatch, getState) => {
             }
         }
 
-        await axios.delete(`/api/products/${id}`, config)
+        await api.delete(`/api/products/${id}`, config)
         
         dispatch({ type: PRODUCT_DELETE_SUCCESS })
 
@@ -77,7 +78,7 @@ export const createProduct = (name, price, description, image, countInStock, col
             }
         }
 
-        const {data} = await axios.post(`/api/products/`, { name, price, description, image, countInStock , color, category }, config)
+        const {data} = await api.post(`/api/products/`, { name, price, description, image, countInStock , color, category }, config)
         
         dispatch({ type: PRODUCT_CREATE_SUCCESS, payload: data })
 
@@ -99,7 +100,7 @@ export const createProduct = (name, price, description, image, countInStock, col
 export const editProduct = (id) => async(dispatch) => {
     try {
         dispatch({ type: PRODUCT_EDIT_REQUEST})
-        const {data} = await axios.get(`/api/products/${id}`)
+        const {data} = await api.get(`/api/products/${id}`)
         dispatch({ type: PRODUCT_EDIT_SUCCESS, payload: data})
     } catch (error) {
         const message = error.response && error.response.data.message ? error.response.data.message : error.message
@@ -129,7 +130,7 @@ export const updateProduct = (product) => async(dispatch, getState) => {
             }
         }
 
-        const {data} = await axios.put(`/api/products/${product._id}`, product, config)
+        const {data} = await api.put(`/api/products/${product._id}`, product, config)
         
         dispatch({ type: PRODUCT_UPDATE_SUCCESS, payload: data })
         dispatch({ type: PRODUCT_EDIT_SUCCESS, payload: data })

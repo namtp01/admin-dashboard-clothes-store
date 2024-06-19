@@ -1,6 +1,7 @@
 import { DISCOUNT_CREATE_FAIL, DISCOUNT_CREATE_REQUEST, DISCOUNT_CREATE_SUCCESS, DISCOUNT_DELETE_FAIL, DISCOUNT_DELETE_REQUEST, DISCOUNT_DELETE_SUCCESS, DISCOUNT_EDIT_FAIL, DISCOUNT_EDIT_REQUEST, DISCOUNT_EDIT_SUCCESS, DISCOUNT_LIST_FAIL, DISCOUNT_LIST_REQUEST, DISCOUNT_LIST_SUCCESS, DISCOUNT_UPDATE_FAIL, DISCOUNT_UPDATE_REQUEST, DISCOUNT_UPDATE_SUCCESS } from "../constants/DiscountConstants";
 import axios from 'axios';
 import { logout } from "./UserActions";
+import api from './../../api';
 
 export const listDiscounts = () => async (dispatch, getState) =>
 {
@@ -15,7 +16,7 @@ export const listDiscounts = () => async (dispatch, getState) =>
       }
     }
 
-    const { data } = await axios.get(`/api/discounts`, config)
+    const { data } = await api.get(`/api/discounts`, config)
 
     dispatch({ type: DISCOUNT_LIST_SUCCESS, payload: data })
 
@@ -49,7 +50,7 @@ export const createDiscount = (name, description, type, value, max_value, code, 
       },
     };
 
-    const { data } = await axios.post(
+    const { data } = await api.post(
       `/api/discounts/`,
       { name, description, type, value, max_value, code, start_date, end_date, max_uses, max_uses_per_user, min_order_value, is_active },
       config
@@ -79,7 +80,7 @@ export const createDiscount = (name, description, type, value, max_value, code, 
 export const editDiscount = (id) => async(dispatch) => {
   try {
       dispatch({ type: DISCOUNT_EDIT_REQUEST})
-      const {data} = await axios.get(`/api/discounts/${id}`)
+      const {data} = await api.get(`/api/discounts/${id}`)
       dispatch({ type: DISCOUNT_EDIT_SUCCESS, payload: data})
   } catch (error) {
       const message = error.response && error.response.data.message ? error.response.data.message : error.message
@@ -111,7 +112,7 @@ export const updateDiscount = (id, name, description, type, value, max_value, co
       },
     };
 
-    const { data } = await axios.put(
+    const { data } = await api.put(
       `/api/discounts/${id}`,
       { name, description, type, value, max_value, code, start_date, end_date, max_uses, max_uses_per_user, min_order_value, is_active },
       config
@@ -148,7 +149,7 @@ export const deleteDiscount = (id) => async(dispatch, getState) => {
           }
       }
 
-      await axios.delete(`/api/discounts/${id}`, config)
+      await api.delete(`/api/discounts/${id}`, config)
       
       dispatch({ type: DISCOUNT_DELETE_SUCCESS })
 
