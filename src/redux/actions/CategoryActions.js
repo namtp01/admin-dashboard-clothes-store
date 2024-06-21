@@ -35,7 +35,7 @@ export const listCategories = () => async (dispatch, getState) =>
 }
 
 // CREATE CATEGORY
-export const createCategory = (name, parent) => async (dispatch, getState) =>
+export const createCategory = (name, image, parent) => async (dispatch, getState) =>
 {
   try {
     dispatch({ type: CATEGORY_CREATE_REQUEST });
@@ -52,7 +52,7 @@ export const createCategory = (name, parent) => async (dispatch, getState) =>
 
     const { data } = await api.post(
       `/api/categories/`,
-      { name, parent },
+      { name, image, parent },
       config
     );
 
@@ -97,7 +97,7 @@ export const editCategory = (id) => async(dispatch) => {
 }
 
 // UPDATE CATEGORY
-export const updateCategory = (id, name, parent) => async (dispatch, getState) => {
+export const updateCategory = (id, name, image, parent) => async (dispatch, getState) => {
   try {
     dispatch({ type: CATEGORY_UPDATE_REQUEST });
 
@@ -114,7 +114,7 @@ export const updateCategory = (id, name, parent) => async (dispatch, getState) =
 
     const { data } = await api.put(
       `/api/categories/${id}`,
-      { name, parent },
+      { name, image, parent },
       config
     );
 

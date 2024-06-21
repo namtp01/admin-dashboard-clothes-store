@@ -19,6 +19,7 @@ import LoginScreen from './screens/LoginScreen';
 import NotFound from './screens/NotFound';
 import DiscountsScreen from './screens/DiscountsScreen';
 import DiscountsEditScreen from './screens/DiscountsEditScreen';
+import MainProducts from './components/products/MainProducts';
 
 
 function App() {
@@ -38,9 +39,10 @@ function App() {
       <Router>
         <Routes>
         <Route path="/" element={<PrivateRouter><HomeScreen /></PrivateRouter>} />
+        <Route path="/search/:keyword" element={<PrivateRouter><ProductScreen /></PrivateRouter>} />
         <Route path="/products" element={<PrivateRouter><ProductScreen /></PrivateRouter>} />
         <Route path="/categories" element={<PrivateRouter><CategoriesScreen /></PrivateRouter>} />
-        <Route path="/category/:id/edit" element={<PrivateRouter><CategoriesEditScreen /></PrivateRouter>} />
+        <Route path="/category/:categoryId/edit" element={<PrivateRouter><CategoriesEditScreen /></PrivateRouter>} />
         <Route path="/discounts" element={<PrivateRouter><DiscountsScreen /></PrivateRouter>} />
         <Route path="/discount/:id/edit" element={<PrivateRouter><DiscountsEditScreen /></PrivateRouter>} />
         <Route path="/orders" element={<PrivateRouter><OrderScreen /></PrivateRouter>} />

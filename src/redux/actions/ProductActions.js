@@ -4,7 +4,7 @@ import { logout } from "./UserActions";
 import api from './../../api';
 
 // ALL PRODUCTS
-export const listProducts = () => async(dispatch, getState) => {
+export const listProducts = (keyword = " ") => async(dispatch, getState) => {
     try {
         dispatch({ type: PRODUCT_LIST_REQUEST})
 
@@ -16,7 +16,7 @@ export const listProducts = () => async(dispatch, getState) => {
             }
         }
 
-        const {data} = await api.get(`/api/products/all`, config)
+        const {data} = await api.get(`/api/products/all?keyword=${keyword}`, config)
         
         dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data})
 
@@ -66,7 +66,7 @@ export const deleteProduct = (id) => async(dispatch, getState) => {
 }
 
 // CREATE PRODUCT
-export const createProduct = (name, price, description, image, countInStock, color, category) => async(dispatch, getState) => {
+export const createProduct = (name, price, description, image, countInStock, category) => async(dispatch, getState) => {
     try {
         dispatch({ type: PRODUCT_CREATE_REQUEST})
 
@@ -78,7 +78,7 @@ export const createProduct = (name, price, description, image, countInStock, col
             }
         }
 
-        const {data} = await api.post(`/api/products/`, { name, price, description, image, countInStock , color, category }, config)
+        const {data} = await api.post(`/api/products/`, { name, price, description, image, countInStock , category }, config)
         
         dispatch({ type: PRODUCT_CREATE_SUCCESS, payload: data })
 

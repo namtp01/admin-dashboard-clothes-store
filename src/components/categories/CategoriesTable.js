@@ -49,8 +49,8 @@ const CategoriesTable = () =>
               </div>
             </th> */}
             <th>ID</th>
+            <th>Image</th>
             <th>Name</th>
-            <th>Description</th>
             <th className="text-end">Action</th>
           </tr>
         </thead>
@@ -70,6 +70,8 @@ const CategoriesTable = () =>
                         </div>
                       </td> */}
                       <td>{index + 1}</td>
+                      
+                      <td><b><img src={parentCategory.image} style={{ width: "40px", height: "40px" }} alt="Product" /></b></td>
                       <td><b>{parentCategory.name}</b></td>
                       <td></td>
                       <td className="text-end">

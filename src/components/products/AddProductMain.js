@@ -37,7 +37,7 @@ const AddProductMain = () =>
   const [countInStock, setCountInStock] = useState(0)
   const [description, setDescription] = useState("")
   const [category, setCategory] = useState("")
-  const [color, setColor] = useState([])
+  // const [color, setColor] = useState([])
   const [isUploading, setIsUploading] = useState(false);
 
   const dispatch = useDispatch()
@@ -70,7 +70,7 @@ const AddProductMain = () =>
       setImage(null)
       setPrice(0)
       setCategory("")
-      setColor([])
+      // setColor([])
       dispatch({ type: IMAGE_UPLOAD_RESET })
     }
   }, [product, dispatch])
@@ -89,9 +89,9 @@ const AddProductMain = () =>
 
   useEffect(() => {
     if (imageUrl) {
-      dispatch(createProduct(name, price, description, imageUrl, countInStock, color, category));
+      dispatch(createProduct(name, price, description, imageUrl, countInStock, category));
     }
-  }, [imageUrl, dispatch, name, price, description, countInStock, color, category]);
+  }, [imageUrl, dispatch, name, price, description, countInStock, category]);
 
   const submitHandler = async (e) =>
   {
@@ -101,7 +101,7 @@ const AddProductMain = () =>
     }
 
     if (imageUrl){
-      dispatch(createProduct(name, price, description, imageUrl, countInStock, color, category))
+      dispatch(createProduct(name, price, description, imageUrl, countInStock, category))
     }
   }
 
@@ -175,12 +175,12 @@ const AddProductMain = () =>
                       onChange={(e) => setCountInStock(e.target.value)}
                     />
                   </div>
-                  <div className="mb-4">
+                  {/* <div className="mb-4">
                     <label htmlFor="product_color" className="form-label">
                       Color
                     </label>
                     <ColorPicker onChange={(selectedColors) => setColor(selectedColors)} />
-                  </div>
+                  </div> */}
                   <div className="mb-4">
                     <label htmlFor="product_price" className="form-label">
                       Category

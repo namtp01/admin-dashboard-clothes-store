@@ -916,3 +916,22 @@ ul.row-sm {
   line-height: 0.7;
   vertical-align: bottom;
 }
+.input-group-search {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.search {
+  flex: 7;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+.search-button {
+  background-color: black;
+  color: white;
+  border: 0;
+  text-transform: uppercase;
+  font-size: 17px;
+  padding: 10px 20px;
+  cursor: pointer;
+}

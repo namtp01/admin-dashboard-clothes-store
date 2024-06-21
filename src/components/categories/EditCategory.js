@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { editCategory, listCategories, updateCategory } from "../../redux/actions/CategoryActions";
 import { CATEGORY_UPDATE_RESET } from "../../redux/constants/CategoryConstants";
 import Toast from "../LoadingError/Toast";
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Message from "../LoadingError/Error";
 import Loading from "../LoadingError/Loading";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,7 +17,7 @@ const ToastObjects = {
 
 const EditCategory = (props) =>
 {
-  const { categoryId } = props
+  const { categoryId } = useParams()
 
   const [name, setName] = useState('')
   const [parent, setParent] = useState(null)

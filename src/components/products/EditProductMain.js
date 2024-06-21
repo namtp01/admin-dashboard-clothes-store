@@ -23,11 +23,11 @@ const EditProductMain = (props) =>
 
   const [name, setName] = useState("")
   const [price, setPrice] = useState(0)
-  const [image, setImage] = useState("")
+  const [image, setImage] = useState(null)
   const [countInStock, setCountInStock] = useState(0)
   const [description, setDescription] = useState("")
   const [category, setCategory] = useState("")
-  const [color, setColor] = useState([])
+  // const [color, setColor] = useState([])
 
   const dispatch = useDispatch()
 
@@ -59,7 +59,7 @@ const EditProductMain = (props) =>
         setCountInStock(product.countInStock)
         setImage(product.image)
         setPrice(product.price)
-        setColor(product.color)
+        // setColor(product.color)
         setCategory(product.category)
       }
     }
@@ -69,7 +69,7 @@ const EditProductMain = (props) =>
   {
     e.preventDefault()
     dispatch(updateProduct({
-      _id: productId, name, price, description, image, countInStock, color, category
+      _id: productId, name, price, description, image, countInStock, category
     }))
   }
 
@@ -145,12 +145,12 @@ const EditProductMain = (props) =>
                             onChange={(e) => setCountInStock(e.target.value)}
                           />
                         </div>
-                        <div className="mb-4">
+                        {/* <div className="mb-4">
                           <label htmlFor="product_color" className="form-label">
                             Color
                           </label>
                           <ColorPicker colors={product.color} onChange={(selectedColors) => setColor(selectedColors)} />
-                        </div>
+                        </div> */}
                         <div className="mb-4">
                           <select className="form-select" value={category} onChange={(e) => setCategory(e.target.value || null)}>
                             <option>All category</option>
