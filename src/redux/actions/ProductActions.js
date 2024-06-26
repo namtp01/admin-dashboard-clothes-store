@@ -130,8 +130,19 @@ export const updateProduct = (product) => async(dispatch, getState) => {
             }
         }
 
-        const {data} = await api.put(`/api/products/${product._id}`, product, config)
-        
+        const productToUpdate = {
+            _id: product._id,
+            name: product.name,
+            price: product.price,
+            description: product.description,
+            image: product.imageUrl, // Make sure this is the new imageUrl
+            countInStock: product.countInStock,
+            category: product.category
+        };
+
+        //const {data} = await api.put(`/api/products/${product._id}`, product, config)
+        const {data} = await api.put(`/api/products/${productToUpdate._id}`, productToUpdate, config)
+
         dispatch({ type: PRODUCT_UPDATE_SUCCESS, payload: data })
         dispatch({ type: PRODUCT_EDIT_SUCCESS, payload: data })
 

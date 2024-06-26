@@ -48,7 +48,7 @@ const OrderDetailMain = (props) =>
                   </span>
                   <br />
                   <small className="text-white mx-3 ">
-                    Order ID: {order._id}
+                    Order ID: {order.customId}
                   </small>
                 </div>
                 <div className="col-lg-6 col-md-6 ms-auto d-flex justify-content-end align-items-center">

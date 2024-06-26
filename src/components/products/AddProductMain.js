@@ -75,11 +75,13 @@ const AddProductMain = () =>
     }
   }, [product, dispatch])
 
-  const handleImageChange = (e) => {
+  const handleImageChange = (e) =>
+  {
     setImage(e.target.files[0])
   }
 
-  const handleUpload = async () => {
+  const handleUpload = async () =>
+  {
     if (image) {
       setIsUploading(true)
       await dispatch(uploadProductImage(image))
@@ -87,7 +89,8 @@ const AddProductMain = () =>
     }
   }
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     if (imageUrl) {
       dispatch(createProduct(name, price, description, imageUrl, countInStock, category));
     }
@@ -100,7 +103,7 @@ const AddProductMain = () =>
       await handleUpload()
     }
 
-    if (imageUrl){
+    if (imageUrl) {
       dispatch(createProduct(name, price, description, imageUrl, countInStock, category))
     }
   }
@@ -185,12 +188,29 @@ const AddProductMain = () =>
                     <label htmlFor="product_price" className="form-label">
                       Category
                     </label>
-                    <select className="form-select" value={category} onChange={(e) => setCategory(e.target.value || null)}>
+                    {/* <select className="form-select" value={category} onChange={(e) => setCategory(e.target.value || null)}>
                       <option>All category</option>
                       <option value="">None</option>
                       {
                         categories.map((category) => (
                           <option key={category._id} value={category._id}>{category.name}</option>
+                        ))
+                      }
+                    </select> */}
+                    <select className="form-select" value={category} onChange={(e) => setCategory(e.target.value || null)}>
+                      <option>All category</option>
+                      <option value="">None</option>
+                      {
+                        parentCategories.map((parent) => (
+                          <optgroup label={parent.name}>
+                            {
+                              categories
+                                .filter((category) => category.parent === parent._id)
+                                .map((child) => (
+                                  <option key={child._id} value={child._id}>{child.name}</option>
+                                ))
+                            }
+                          </optgroup>
                         ))
                       }
                     </select>
@@ -228,7 +248,7 @@ const AddProductMain = () =>
                       onChange={(e) => setImage(e.target.value)}
                     /> */}
                     <input className="form-control mt-3" type="file" onChange={handleImageChange} />
-                    { imageUrl && <img src={imageUrl} alt="Uploaded" style={{ maxWidth: '100px', marginTop: '10px' }} />}
+                    {imageUrl && <img src={imageUrl} alt="Uploaded" style={{ maxWidth: '100px', marginTop: '10px' }} />}
                   </div>
                 </div>
               </div>

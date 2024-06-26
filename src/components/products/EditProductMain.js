@@ -9,6 +9,7 @@ import Message from "../LoadingError/Error";
 import Loading from "../LoadingError/Loading";
 import ColorPicker from "./CustomSelect";
 import { listCategories } from "../../redux/actions/CategoryActions";
+import { uploadProductImage } from "../../redux/actions/ImageActions";
 
 const ToastObjects = {
   pauseOnFocusLoss: false,
@@ -28,14 +29,18 @@ const EditProductMain = (props) =>
   const [description, setDescription] = useState("")
   const [category, setCategory] = useState("")
   // const [color, setColor] = useState([])
+  const [isUploading, setIsUploading] = useState(false);
 
   const dispatch = useDispatch()
+
+  const productImageUpload = useSelector((state) => state.productImageUpload)
+  const { loading: loadingUpload, error: errorUpload, imageUrl } = productImageUpload
 
   const productEdit = useSelector((state) => state.productEdit)
   const { loading, error, product } = productEdit
 
   const categoryList = useSelector(state => state.categoryList)
-  const { categories } = categoryList
+  const { categories = [] } = categoryList || {}
 
   const productUpdate = useSelector((state) => state.productUpdate)
   const { loading: loadingUpdate, error: errorUpdate, success: successUpdate } = productUpdate
@@ -44,6 +49,8 @@ const EditProductMain = (props) =>
   {
     dispatch(listCategories())
   }, [dispatch])
+
+  const parentCategories = categories.filter((category) => !category.parent)
 
   useEffect(() =>
   {
@@ -65,12 +72,32 @@ const EditProductMain = (props) =>
     }
   }, [product, dispatch, productId, successUpdate])
 
-  const submitHandler = (e) =>
+  const handleImageChange = async (e) =>
+  {
+    setImage(e.target.files[0])
+    setIsUploading(true)
+    await dispatch(uploadProductImage(e.target.files[0]))
+    console.log(productImageUpload)
+    setIsUploading(false)
+  }
+
+  // useEffect(() =>
+  // {
+  //   if (imageUrl) {
+  //     dispatch(updateProduct({ _id: productId, name, price, description, imageUrl, countInStock, category }));
+  //   }
+  // }, [imageUrl, dispatch, name, price, description, countInStock, category]);
+
+  const submitHandler = async (e) =>
   {
     e.preventDefault()
-    dispatch(updateProduct({
-      _id: productId, name, price, description, image, countInStock, category
-    }))
+
+    if (imageUrl) {
+      dispatch(updateProduct({
+        _id: productId, name, price, description, imageUrl, countInStock, category
+      }))
+    }
+
   }
 
   return (
@@ -156,8 +183,16 @@ const EditProductMain = (props) =>
                             <option>All category</option>
                             <option value="">None</option>
                             {
-                              categories.map((category) => (
-                                <option key={category._id} value={category._id}>{category.name}</option>
+                              parentCategories.map((parent) => (
+                                <optgroup label={parent.name}>
+                                  {
+                                    categories
+                                      .filter((category) => category.parent === parent._id)
+                                      .map((child) => (
+                                        <option key={child._id} value={child._id}>{child.name}</option>
+                                      ))
+                                  }
+                                </optgroup>
                               ))
                             }
                           </select>
@@ -175,12 +210,13 @@ const EditProductMain = (props) =>
                         </div>
                         <div className="mb-4">
                           <label className="form-label">Images</label>
-                          <input
+                          {/* <input
                             className="form-control"
                             type="text"
                             value={image}
-                            onChange={(e) => setImage(e.target.value)}
-                          />
+                          /> */}
+                          <input className="form-control mt-3" type="file" onChange={handleImageChange} />
+                          {imageUrl && <img src={imageUrl} alt="Uploaded" style={{ maxWidth: '100px', marginTop: '10px' }} />}
                         </div>
                       </>
                     )
